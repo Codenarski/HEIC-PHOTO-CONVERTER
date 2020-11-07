@@ -10,15 +10,19 @@ public class Application {
         String path = InitializePath();
 
         new Search() //
-                .notRecursively() //
+                .recursively() //
                 .directory(path) //
                 .byFile() //
                 .stream() //
                 .filter(File::isFile) //
-                .forEach(f -> new ConvertHEICIntoPNGViaAPI(path).apply(f)); //
+                .filter(f -> new isHEIVCFile().test(f)) //
+                .peek(f -> System.out.println("Conversion started for " + f.getPath()))
+                .forEach(f -> new ConvertHEICIntoPNG().accept(f)); //
+        System.out.print("Conversion finished successfully");
     }
 
     private static String InitializePath() {
+        //TODO: make format variable on ui
         String path = null;
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -31,7 +35,6 @@ public class Application {
         if (file != null) {
             path = file.getPath();
         }
-        new File(path + "\\.convertedPhotos").mkdir();
         return path;
     }
 }
