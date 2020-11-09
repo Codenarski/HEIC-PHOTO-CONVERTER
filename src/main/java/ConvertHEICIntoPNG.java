@@ -1,4 +1,6 @@
-import org.im4java.core.*;
+import org.im4java.core.ConvertCmd;
+import org.im4java.core.IM4JavaException;
+import org.im4java.core.IMOperation;
 import org.im4java.process.ProcessStarter;
 
 import java.io.File;
@@ -6,6 +8,16 @@ import java.io.IOException;
 import java.util.function.Consumer;
 
 public class ConvertHEICIntoPNG implements Consumer<File> {
+
+    String myPath;
+
+    public ConvertHEICIntoPNG() {
+        String operatingSystem = System.getProperty("os.name");
+
+        if (operatingSystem.toLowerCase().contains("win")) {
+            this.myPath = System.getProperty("user.dir") + "\\ImageMagickWindows";
+        }
+    }
 
     @Override
     public void accept(File file) {
@@ -17,7 +29,6 @@ public class ConvertHEICIntoPNG implements Consumer<File> {
         new File(filePathForFolderForConvertedFile).mkdir();
 
         try {
-            String myPath = "C:\\Program Files\\ImageMagick-7.0.10-Q16-HDRI";
             ProcessStarter.setGlobalSearchPath(myPath);
             ConvertCmd cmd = new ConvertCmd();
             cmd.setSearchPath(myPath);
