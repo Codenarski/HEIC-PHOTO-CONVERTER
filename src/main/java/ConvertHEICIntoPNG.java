@@ -23,7 +23,10 @@ public class ConvertHEICIntoPNG implements Consumer<File> {
     public void accept(File file) {
         //TODO: Make mypath and file formats variable
         String filepath = file.getPath();
-        String changedType = file.getName().replace(".heic", ".png");
+        String changedType = file.getName().replace(".HEIC", ".png");
+        if (changedType.equals(file.getName())) {
+            changedType = file.getName().replace(".heic", ".png");
+        }
         String filePathForFolderForConvertedFile = filepath.replace(file.getName(), ".convertedPhotos");
         String filepathForConvertedFile = filePathForFolderForConvertedFile + "\\" + changedType;
         new File(filePathForFolderForConvertedFile).mkdir();
